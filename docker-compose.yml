@@ -1,0 +1,32 @@
+version: "3"
+services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_ROOT_HOST: "%"
+    volumes:
+      - ./data:/var/lib/mysql
+      - ./init.sql:/data/application/init.sql
+    command: --init-file /data/application/init.sql --max_connections=300
+    restart: always
+    ports:
+      - 3309:3306
+  badge:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql
+    links:
+      - mysql
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASS: rootpass
+      MYSQL_DB: coverage-badge
+      DEBUG: "true"
+    command: ./main
+    restart: always
+    ports:
+      - 5060:80
