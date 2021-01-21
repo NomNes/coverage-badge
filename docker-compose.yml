@@ -4,7 +4,6 @@ services:
     image: mysql:latest
     environment:
       MYSQL_ROOT_PASSWORD: rootpass
-      MYSQL_ROOT_HOST: "%"
     volumes:
       - ./data:/var/lib/mysql
       - ./init.sql:/data/application/init.sql
