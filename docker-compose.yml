@@ -10,8 +10,6 @@ services:
       - ./init.sql:/data/application/init.sql
     command: --init-file /data/application/init.sql --max_connections=300
     restart: always
-    ports:
-      - 3309:3306
   badge:
     build:
       context: .
